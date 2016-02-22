@@ -24,12 +24,12 @@ import argparse
 parser = argparse.ArgumentParser()
 
 parser.add_argument("inputFile",help="The input raw data to convert (target file).", type=str)
-parser.add_argument("--lastNode",help="The last node. Nodes with higher Ids will be ignored.", type=int, required=False, nargs='?', default=999999)
+parser.add_argument("--lastNode",help="The last node. Nodes with higher Ids will be ignored.", type=int, required=False, nargs='?', default=9999999)
 parser.add_argument("--output",help="The output file.", type=str, required=False, nargs='?', default="output.txt")
 
 args = parser.parse_args()
 
-last_node = args.last
+last_node = args.lastNode
 input_file = args.inputFile
 output_file = args.output
 
