@@ -40,7 +40,14 @@ def main():
         thelist = [list(map(int,x.split())) for x in f.readlines()]
 
     thelist = sorted(thelist, key=lambda line : line[2])
+    
+#    with open('debugfile','w') as df:
+#        templist = [list(map(str, x)) for x in thelist]
+#        for l in templist:
+#            df.write("\t".join(l)+"\n")
 
+#    test_order(2, thelist)
+        
     other_list = []
 
     initial_time = int(thelist[0][2]) #in order to convert timestamp to simulation time
@@ -53,14 +60,29 @@ def main():
         end_time = int(l[3]) - initial_time
 
         if from_node <= last_node and to_node <= last_node:
-            connection_beginning = [str(init_time), "CONN", str(from_node), str(to_node), "up"]
-            connection_end = [str(end_time), "CONN", str(from_node), str(to_node), "down"]
+            connection_beginning = [init_time, "CONN", from_node, to_node, "up"]
+            connection_end = [end_time, "CONN", from_node, to_node, "down"]
             other_list.append(connection_beginning)
             other_list.append(connection_end)
 
+    #ordering by time
+    other_list = sorted(other_list, key=lambda i : i[0])
+
+    #converting to str
+    other_list = [map(str, x) for x in other_list]
+
+    #test_order(0, other_list)
+
+    #saving to file
     with open(output_file,'w') as f:
         for l in other_list:
             f.write("\t".join(l)+"\n")
+
+def test_order(column, thelist):
+    previous = -1
+    for l in thelist:
+        assert l[column] >= previous , "Ordering error"
+        previous = l[column]
 
 if __name__ == "__main__":
     main()
